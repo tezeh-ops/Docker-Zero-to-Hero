@@ -1,0 +1,36 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-deployment
+  labels:
+    app: python-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-app
+  template:
+    metadata:
+      labels:
+        app: python-app
+    spec:
+      containers:
+      - name: python-app
+        image: tezeh/python-sample-app-demo:v1
+        volumeMounts:                             # mounting the volumes
+         - name: db-connection                   # mounting the volume
+           mountPath: /opt                      # here we are giving the path we want to mount the volume to and we can give it any path
+         - name: db-secret-volume               # NB the name must match the volume name below
+           mountPath: /etc/secret-volume        # the path we want to mount out Secret as Volume
+           readOnly: true
+        ports:
+        - containerPort: 8000
+      volumes:                      #  the secret data is expose to containers in the pod through a volume.
+        - name: db-secret-volume              # creating the  Secret volume
+          secret:
+            secretName: sam-secret
+        - name: db-connection           # creating the ConfigMap volume
+          configMap:
+            name: test-cm

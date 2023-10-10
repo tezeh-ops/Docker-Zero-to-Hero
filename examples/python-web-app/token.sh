@@ -1,0 +1,1 @@
+sudo oc login --token=sha256~n2Ew_qM_W_aYDyOrCFUxRrnJS2SJInQwKpmw11wJObU --server=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
